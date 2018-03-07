@@ -1,8 +1,0 @@
-﻿  cudaWorker.cpp
-c:\users\nerradia\documents\cudabrain\cudabrain\cudabrain\cudaworker.cpp(187): warning C4715: 'cudaWorker::initCuda' : les chemins de contrôle ne retournent pas tous une valeur
-  CUDABrain.vcxproj -> C:\Users\Nerradia\Documents\CUDABrain\CUDAbrain\x64\Debug\CUDABrain.exe
-  CUDABrain.vcxproj -> C:\Users\Nerradia\Documents\CUDABrain\CUDAbrain\x64\Debug\CUDABrain.pdb (Full PDB)
-  copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin\cudart*.dll" "C:\Users\Nerradia\Documents\CUDABrain\CUDAbrain\x64\Debug\"
-  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin\cudart32_91.dll
-  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin\cudart64_91.dll
-          2 fichier(s) copié(s).
