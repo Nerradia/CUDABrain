@@ -14,18 +14,19 @@
 #define NETWORK_MEMORIES_SIZE (N_NLVL1 + N_NLVL2 + N_NLVL3 + N_OUTPUTS)
 #define NETWORK_CONSTANTS_SIZE (N_NLVL1 + N_NLVL2 + N_NLVL3 + N_OUTPUTS)
 #define NETWORK_PARAMETERS_TOTAL_SIZE (NETWORK_INTERCONNECTS_SIZE + NETWORK_MEMORIES_SIZE + NETWORK_CONSTANTS_SIZE)
+#define MAX_NLVL N_INPUTS
 
 typedef struct
 {
-	int ready;
-
 	float* interconnects;
 	float* memories;
 	float* constants;
-
+		
 	float* inputs;
 	float* outputs;
-		
+} cudanetwork;
+
+typedef struct {
 	float* dev_interconnects;
 	float* dev_memories;
 	float* dev_constants;
@@ -35,7 +36,7 @@ typedef struct
 	float* dev_lvl2;
 	float* dev_lvl3;
 	float* dev_outputs;
-} cudanetwork;
+} cudaNetworkGPUAdresses;
 
 class cudaWorker
 {
@@ -43,7 +44,7 @@ public:
 
 	cudaWorker(int nNetworks);
 
-	/* Initialises GPU, allocate memory and copy network data */
+	/* Initialises GPU, allocate memory on host and device */
 	int initCuda();
 
 	/* Networks configuration */
@@ -59,24 +60,29 @@ public:
 	void setConstant(int id, int stage, int neuron, float value);
 	float getConstant(int id, int stage, int neuron);
 
+	/* Update network's parameters in GPU memory */
+	void updateNetwork(int id);
 
 	/* Things to call at every simulation step */
 	int computeStep();
-	void setInputData(int id, float* values);
-	void getOutputData(int id, char* values);
+	float* getInputDataBuffer(int id);
+	float* getOutputDataBuffer(int id);
 
 
 	~cudaWorker();
 
 private:
 
-	void safeFreeCUDA(void* p);
-	void safeFreeCUDAHost(void *p);
-	void safeFree(void* p);
+	void safeFreeCUDA(float* p);
+	void safeFreeCUDAHost(float *p);
+	void safeFree(float* p);
 	int getInterconnectID(int stage, int input, int output);
+	int getConstOrMemID(int stage, int neuron);
 	
 	cudanetwork* networks;
+	cudaNetworkGPUAdresses* dev_networksGPU;
+	cudaNetworkGPUAdresses* networksGPU;
 	int nNetworks;
-	cudaError_t cudaStatus; 
+	cudaError_t cudaStatus;
 };
 

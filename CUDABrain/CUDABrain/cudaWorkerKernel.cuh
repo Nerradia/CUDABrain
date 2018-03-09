@@ -1,3 +1,7 @@
 #pragma once
 
-void cudaWorkerKernellCall(int nblocks, int nthreads, float* networkData, float* inputs, int ninputs, float* ouputs, int noutputs);
+#include "cudaWorker.h"
+
+void cudaWorkerKernellCall(int nblocks, int nthreads, void* index, int step);
+
+
